@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 
 import { api } from "@/utils"
 import type { IUser, ILogInData, ILogInResponse } from "@/interfaces"
+import { API_ENDPOINTS } from "@/constants"
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -24,11 +25,22 @@ export const useAuthStore = defineStore('auth', {
         const params = new URLSearchParams()
         params.append('username', loginData.username)
         params.append('password', loginData.password)
-        const { data, status }: {data: ILogInResponse, status: number} = await api.post('/login/access-token', params)
+        const { data, status }: { data: ILogInResponse, status: number } = await api.post(API_ENDPOINTS.auth.login, params)
         localStorage.setItem('access-token', data.access_token)
+        this.getProfileMe()
         return status
       } catch (error) {
         console.log('Login E:', error)
+      }
+    },
+    async getProfileMe() {
+      try {
+        const { data, status }: { data: IUser, status: number} = await api.get(API_ENDPOINTS.user.profileMe)
+        this.user = data
+        localStorage.setItem('user', JSON.stringify(data))
+        return status
+      } catch (error) {
+        console.error('Get profile E:', error)
       }
     }
   }
