@@ -1,5 +1,7 @@
 import { defineStore } from "pinia"
+import { useRouter } from "vue-router"
 
+import { ElNotification } from 'element-plus'
 import { api } from "@/utils"
 import type { IUser, ILogInData, ILogInResponse } from "@/interfaces"
 import { API_ENDPOINTS } from "@/constants"
@@ -14,10 +16,16 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     checkLoggedIn() {
-      if (localStorage.getItem('isLoggedIn') === 'true') {
-        this.isLoggedIn = true
-        const userData = JSON.parse(localStorage.getItem('user')!)
-        this.user = userData
+      const router = useRouter()
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
+      const userSaved = localStorage.getItem('user')
+      if (!isLoggedIn) {
+        router.push('/login')
+        ElNotification({
+          title: 'Error',
+          message: 'You are not logged in',
+          type: 'error',
+        })
       }
     },
     async login(loginData: ILogInData) {
@@ -27,6 +35,7 @@ export const useAuthStore = defineStore('auth', {
         params.append('password', loginData.password)
         const { data, status }: { data: ILogInResponse, status: number } = await api.post(API_ENDPOINTS.auth.login, params)
         localStorage.setItem('access-token', data.access_token)
+        localStorage.setItem('isLoggedIn', 'true')
         this.getProfileMe()
         return status
       } catch (error) {
