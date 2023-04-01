@@ -27,6 +27,10 @@ export const useAuthStore = defineStore('auth', {
           type: 'error',
         })
       }
+      if (userSaved) {
+        const userData = JSON.parse(userSaved)
+        this.user = userData
+      }
     },
     async login(loginData: ILogInData) {
       try {
