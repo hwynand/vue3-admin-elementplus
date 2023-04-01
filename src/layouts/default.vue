@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { ElHeader } from 'element-plus';
-import { RouterView } from 'vue-router'
+
+import { useAuthStore } from '@/stores/auth'
 import TheHeader from '../components/TheHeader.vue';
 import TheSideBar from '../components/TheSideBar.vue';
+
+const authStore = useAuthStore()
+authStore.checkLoggedIn()
 </script>
 
 <template>
