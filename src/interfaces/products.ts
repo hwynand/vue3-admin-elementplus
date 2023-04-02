@@ -31,3 +31,11 @@ export interface IProduct {
   description: string,
   product_variants: IProductVariant[],
 }
+
+export interface IGetProductListParams {
+  category_id?: number[],
+  brand_id?: number[],
+  keyword?: string,
+  page?: number,
+  size?: number,
+}

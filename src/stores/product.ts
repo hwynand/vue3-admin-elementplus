@@ -2,16 +2,19 @@ import { defineStore } from 'pinia'
 
 import type { IProduct } from '@/interfaces'
 import { api } from '@/utils'
+import type { IGetProductListParams } from '@/interfaces'
 
 export const useProductsStore = defineStore('products', {
   state: () => ({
+    totalProduct: null as number | null,
     productList: [] as IProduct[],
   }),
   actions: {
-    async getProductList() {
+    async getProductList(params: IGetProductListParams) {
       try {
-        const { data, status } = await api.get<IProduct[]>('/products/')
-        this.productList = data
+        const { data, status } = await api.get('/products/', { params })
+        this.productList = data.results
+        this.totalProduct = data.total
       } catch (error) {
         console.error('Product store E:', error)
       }
@@ -19,7 +22,6 @@ export const useProductsStore = defineStore('products', {
     async deleteProduct(id: number) {
       try {
         const { data } = await api.delete<IProduct>('/products/' + id)
-        this.getProductList()
       } catch (error) {
         console.error('Delete Product E: ', error)
       }
