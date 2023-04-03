@@ -4,15 +4,17 @@ import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { useProductsStore } from '@/stores/product'
+import { useCategoriesStore } from '@/stores/category'
 import type { IGetProductListParams } from '@/interfaces';
 
 const productStore = useProductsStore()
+const categoryStore = useCategoriesStore()
 const router = useRouter()
 const getProductListParams: IGetProductListParams = reactive({})
 productStore.getProductList(getProductListParams)
 
 const categories = ref([])
-productStore.getCategoryList()
+categoryStore.getCategoryList()
 function handleChangeCategory(newCategories: number[]) {
   getProductListParams.category_id = newCategories
   productStore.getProductList(getProductListParams)
@@ -54,7 +56,7 @@ function changePage(page: number) {
   <div>
     <div class="filter-options">
       <el-select v-model="categories" @change="handleChangeCategory" multiple placeholder="Category" size="large">
-        <el-option v-for="category in productStore.categoryList" :key="category.id" :label="category.name"
+        <el-option v-for="category in categoryStore.categoryList" :key="category.id" :label="category.name"
           :value="category.id" />
       </el-select>
     </div>

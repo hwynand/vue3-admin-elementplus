@@ -27,13 +27,5 @@ export const useProductsStore = defineStore('products', {
         console.error('Delete Product E: ', error)
       }
     },
-    async getCategoryList() {
-      try {
-        const { data } = await api.get('/categories/')
-        this.categoryList = data
-      } catch (error) {
-        console.error('Category store E: ', error)
-      }
-    }
   }
 })
