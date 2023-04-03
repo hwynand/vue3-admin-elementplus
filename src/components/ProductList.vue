@@ -5,10 +5,13 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { useProductsStore } from '@/stores/product'
 import { useCategoriesStore } from '@/stores/category'
+import { useBrandsStore } from '@/stores/brand'
 import type { IGetProductListParams } from '@/interfaces';
 
 const productStore = useProductsStore()
 const categoryStore = useCategoriesStore()
+const brandStore = useBrandsStore()
+
 const router = useRouter()
 const getProductListParams: IGetProductListParams = reactive({})
 productStore.getProductList(getProductListParams)
@@ -17,6 +20,13 @@ const categories = ref([])
 categoryStore.getCategoryList()
 function handleChangeCategory(newCategories: number[]) {
   getProductListParams.category_id = newCategories
+  productStore.getProductList(getProductListParams)
+}
+
+const brands = ref([])
+brandStore.getBrandList()
+function handleChangeBrand(newBrands: number[]) {
+  getProductListParams.brand_id = newBrands
   productStore.getProductList(getProductListParams)
 }
 
@@ -59,6 +69,10 @@ function changePage(page: number) {
         <el-option v-for="category in categoryStore.categoryList" :key="category.id" :label="category.name"
           :value="category.id" />
       </el-select>
+      <el-select v-model="brands" @change="handleChangeBrand" multiple placeholder="Brand" size="large">
+        <el-option v-for="brand in brandStore.brandList" :key="brand.id" :label="brand.name"
+          :value="brand.id" />
+      </el-select>
     </div>
     <el-text class="mx-1" size="large">{{ productStore.totalProduct }} products</el-text>
     <el-table :data="productStore.productList" stripe>
@@ -96,5 +110,8 @@ function changePage(page: number) {
 
 .filter-options {
   margin-bottom: 10px;
+}
+.el-select {
+  margin: 0 10px;
 }
 </style>
