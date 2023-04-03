@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Search } from '@element-plus/icons-vue'
 
 import { useProductsStore } from '@/stores/product'
 import { useCategoriesStore } from '@/stores/category'
@@ -27,6 +28,12 @@ const brands = ref([])
 brandStore.getBrandList()
 function handleChangeBrand(newBrands: number[]) {
   getProductListParams.brand_id = newBrands
+  productStore.getProductList(getProductListParams)
+}
+
+const searchKeyword = ref()
+function handleSearchByKeyword() {
+  getProductListParams.keyword = searchKeyword.value
   productStore.getProductList(getProductListParams)
 }
 
@@ -73,6 +80,11 @@ function changePage(page: number) {
         <el-option v-for="brand in brandStore.brandList" :key="brand.id" :label="brand.name"
           :value="brand.id" />
       </el-select>
+      <el-input v-model="searchKeyword" placeholder="Press Enter to search" clearable size="large" @keyup.enter="handleSearchByKeyword">
+        <template #prefix>
+          <el-icon><search /></el-icon>
+        </template>
+      </el-input>
     </div>
     <el-text class="mx-1" size="large">{{ productStore.totalProduct }} products</el-text>
     <el-table :data="productStore.productList" stripe>
@@ -110,6 +122,7 @@ function changePage(page: number) {
 
 .filter-options {
   margin-bottom: 10px;
+  display: flex;
 }
 .el-select {
   margin: 0 10px;
