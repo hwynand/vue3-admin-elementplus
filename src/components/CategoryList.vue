@@ -23,26 +23,30 @@ function handleEdit(id: number) {
   router.push('/categories/' + id)
 }
 
-// function handleDelete(id: number) {
-//   ElMessageBox.confirm(
-//     'Delete this product?',
-//     'Warning',
-//     {
-//       confirmButtonText: 'Delete',
-//       cancelButtonText: 'Cancel',
-//       type: 'warning',
-//     }
-//   )
-//     .then(() => {
-//       categoryStore.deleteProduct(id)
-//     })
-//     .catch(() => {
-//       ElMessage({
-//         type: 'info',
-//         message: 'Delete canceled',
-//       })
-//     })
-// }
+function handleDelete(id: string) {
+  ElMessageBox.confirm(
+    'Delete this category?',
+    'Warning',
+    {
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      categoryStore.deleteCategory(id)
+      ElMessage({
+        type: 'success',
+        message: 'Category deleted',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
+}
 
 // function changePage(page: number) {
 //   getCategoryListParams.page = page
@@ -62,9 +66,12 @@ function handleEdit(id: number) {
       </router-link>
     </div>
     <div class="filter-options">
-      <el-input v-model="searchKeyword" placeholder="Press Enter to search" clearable size="large" @keyup.enter="handleSearchByKeyword">
+      <el-input v-model="searchKeyword" placeholder="Press Enter to search" clearable size="large"
+        @keyup.enter="handleSearchByKeyword">
         <template #prefix>
-          <el-icon><search /></el-icon>
+          <el-icon>
+            <search />
+          </el-icon>
         </template>
       </el-input>
     </div>
@@ -80,12 +87,12 @@ function handleEdit(id: number) {
       <el-table-column label="Actions" width="280">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.row.id)">Edit</el-button>
-          <!-- <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">Delete</el-button> -->
+          <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">Delete</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- <el-pagination background layout="prev, pager, next" :total="categoryStore.totalProduct" hide-on-single-page -->
-      <!-- @current-change="changePage" /> -->
+    <!-- <el-pagination background layout="prev, pager, next" :total="categoryStore.totalProduct" hide-on-single-page
+        @current-change="changePage" /> -->
   </div>
 </template>
 
@@ -109,7 +116,7 @@ function handleEdit(id: number) {
   margin-bottom: 10px;
   display: flex;
 }
+
 .el-select {
   margin: 0 10px;
-}
-</style>
+}</style>

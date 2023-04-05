@@ -41,6 +41,15 @@ export const useCategoriesStore = defineStore('categories', {
       } catch (error) {
         console.error(error)
       }
+    },
+    async deleteCategory(categoryId: string) {
+      try {
+        const res = await api.delete(API_ENDPOINTS.categories + categoryId)
+        this.getCategoryList({})
+        return res
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 })
