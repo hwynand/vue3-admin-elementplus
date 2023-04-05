@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 
@@ -71,6 +71,14 @@ function changePage(page: number) {
 
 <template>
   <div>
+    <div class="head-actions">
+      <router-link to="/products/create">
+        <el-button type="success" plain>
+          <Icon icon="ep:plus" />
+          New Product
+        </el-button>
+      </router-link>
+    </div>
     <div class="filter-options">
       <el-select v-model="categories" @change="handleChangeCategory" multiple placeholder="Category" size="large">
         <el-option v-for="category in categoryStore.categoryList" :key="category.id" :label="category.name"
@@ -109,12 +117,18 @@ function changePage(page: number) {
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination background layout="prev, pager, next" :total="productStore.totalProduct"
+    <el-pagination background layout="prev, pager, next" :total="productStore.totalProduct" hide-on-single-page
       @current-change="changePage" />
   </div>
 </template>
 
 <style scoped>
+.head-actions {
+  margin: 0 0 15px 0;
+  display: flex;
+  justify-content: end;
+}
+
 .el-pagination {
   justify-content: end;
   margin: 15px;
