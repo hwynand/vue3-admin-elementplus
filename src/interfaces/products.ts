@@ -46,3 +46,9 @@ export interface IGetProductListParams {
   page?: number,
   size?: number,
 }
+
+export interface IGetCategoryParams {
+  keyword?: string,
+  skip?: number,
+  limit?: number,
+}

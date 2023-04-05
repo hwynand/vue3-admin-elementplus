@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import type { ICategory, ICategoryCreate, ICategoryUpdate } from '@/interfaces'
+import type { ICategory, ICategoryCreate, ICategoryUpdate, IGetCategoryParams } from '@/interfaces'
 import { api } from '@/utils'
 import { API_ENDPOINTS } from '@/constants'
 
@@ -10,9 +10,9 @@ export const useCategoriesStore = defineStore('categories', {
     category: null as ICategory | null,
   }),
   actions: {
-    async getCategoryList() {
+    async getCategoryList(params: IGetCategoryParams) {
       try {
-        const { data } = await api.get(API_ENDPOINTS.categories)
+        const { data } = await api.get(API_ENDPOINTS.categories, { params })
         this.categoryList = data
       } catch (error) {
         console.error('Category store E: ', error)
