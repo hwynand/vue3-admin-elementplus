@@ -3,50 +3,50 @@ import { reactive, defineProps, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 
-import { useCategoriesStore } from '@/stores/category'
+import { useBrandsStore } from '@/stores/brand'
 
 export interface Props {
   type: 'create' | 'update',
-  categoryId?: string,
+  brandId?: string,
 }
 
 const props = defineProps<Props>()
 
 const router = useRouter()
-const categoryStore = useCategoriesStore()
-const categoryFormData = reactive({
+const brandStore = useBrandsStore()
+const brandFormData = reactive({
   name: '',
-  image: '',
+  // image: '',
 })
 
 if (props.type === 'update') {
-  categoryStore.getCategory(props.categoryId!)
+  brandStore.getBrand(props.brandId!)
 }
 
 watch(
-  () => categoryStore.category,
+  () => brandStore.brand,
   () => {
-    if (categoryStore.category) {
-      categoryFormData.name = categoryStore.category.name
-      categoryFormData.image = categoryStore.category.image
+    if (brandStore.brand) {
+      brandFormData.name = brandStore.brand.name
+      // brandFormData.image = brandStore.brand.image
     }
   }
 )
 
 async function onSubmit() {
   if (props.type === 'create') {
-    const res = await categoryStore.createCategory(categoryFormData)
+    const res = await brandStore.createBrand(brandFormData)
     if (res?.statusText === 'OK') {
       ElMessage.success('Successfully created.')
-      router.push('/categories')
+      router.push('/brands')
     } else {
       ElMessage.error('Oops, some thing went wrong.')
     }
   } else if (props.type === 'update') {
-    const res = await categoryStore.updateCategory(props.categoryId!, categoryFormData)
+    const res = await brandStore.updateBrand(props.brandId!, brandFormData)
     if (res?.statusText === 'OK') {
       ElMessage.success('Successfully updated.')
-      router.push('/categories')
+      router.push('/brands')
     } else {
       ElMessage.error('Oops, some thing went wrong.')
     }
@@ -54,19 +54,19 @@ async function onSubmit() {
 }
 
 function onCancel() {
-  router.push('/categories')
+  router.push('/brands')
 }
 </script>
 
 <template>
-  <el-form :model="categoryFormData" label-width="120px">
+  <el-form :model="brandFormData" label-width="120px">
     <el-form-item label="Name">
-      <el-input v-model="categoryFormData.name" />
+      <el-input v-model="brandFormData.name" />
     </el-form-item>
-    <el-form-item label="Image Link">
-      <el-input v-model="categoryFormData.image" />
-    </el-form-item>
-    <el-image :src="categoryFormData.image" />
+    <!-- <el-form-item label="Image Link">
+            <el-input v-model="brandFormData.image" />
+          </el-form-item>
+          <el-image :src="brandFormData.image" /> -->
     <el-form-item>
       <el-button type="primary" @click="onSubmit">{{ props.type === 'create' ? 'Create' : 'Update' }}</el-button>
       <el-button @click="onCancel">Cancel</el-button>

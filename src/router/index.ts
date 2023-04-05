@@ -46,16 +46,16 @@ const router = createRouter({
       name: 'brand list',
       component: () => import('../views/BrandListView.vue')
     },
-    // {
-    //   path: '/brands/create',
-    //   name: 'brand create',
-    //   component: () => import('../views/BrandCreateView.vue')
-    // },
-    // {
-    //   path: '/brands/:id(\\d+)',
-    //   name: 'brand update',
-    //   component: () => import('../views/BrandUpdateView.vue')
-    // },
+    {
+      path: '/brands/create',
+      name: 'brand create',
+      component: () => import('../views/BrandCreateView.vue')
+    },
+    {
+      path: '/brands/:id(\\d+)',
+      name: 'brand update',
+      component: () => import('../views/BrandUpdateView.vue')
+    },
     {
       path: '/orders',
       name: 'orders',
