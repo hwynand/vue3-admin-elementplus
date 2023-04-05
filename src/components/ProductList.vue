@@ -25,7 +25,7 @@ function handleChangeCategory(newCategories: number[]) {
 }
 
 const brands = ref([])
-brandStore.getBrandList()
+brandStore.getBrandList({})
 function handleChangeBrand(newBrands: number[]) {
   getProductListParams.brand_id = newBrands
   productStore.getProductList(getProductListParams)
@@ -143,4 +143,5 @@ function changePage(page: number) {
 
 .el-select {
   margin: 0 10px;
-}</style>
+}
+</style>

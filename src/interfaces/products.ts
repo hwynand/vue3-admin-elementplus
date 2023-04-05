@@ -9,10 +9,14 @@ export interface ICategoryUpdate {
 export interface ICategory extends ICategoryCreate {
   id: number,
 }
-
-export interface IBrand {
-  id: number,
+export interface IBrandCreate {
   name: string,
+}
+export interface IBrandUpdate {
+  name: string,
+}
+export interface IBrand extends IBrandCreate {
+  id: number,
 }
 
 export interface IImage {
@@ -48,6 +52,12 @@ export interface IGetProductListParams {
 }
 
 export interface IGetCategoryParams {
+  keyword?: string,
+  skip?: number,
+  limit?: number,
+}
+
+export interface IGetBrandParams {
   keyword?: string,
   skip?: number,
   limit?: number,
