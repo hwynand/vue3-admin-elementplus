@@ -18,7 +18,7 @@ const getProductListParams: IGetProductListParams = reactive({})
 productStore.getProductList(getProductListParams)
 
 const categories = ref([])
-categoryStore.getCategoryList()
+categoryStore.getCategoryList({})
 function handleChangeCategory(newCategories: number[]) {
   getProductListParams.category_id = newCategories
   productStore.getProductList(getProductListParams)
@@ -85,12 +85,14 @@ function changePage(page: number) {
           :value="category.id" />
       </el-select>
       <el-select v-model="brands" @change="handleChangeBrand" multiple placeholder="Brand" size="large">
-        <el-option v-for="brand in brandStore.brandList" :key="brand.id" :label="brand.name"
-          :value="brand.id" />
+        <el-option v-for="brand in brandStore.brandList" :key="brand.id" :label="brand.name" :value="brand.id" />
       </el-select>
-      <el-input v-model="searchKeyword" placeholder="Press Enter to search" clearable size="large" @keyup.enter="handleSearchByKeyword">
+      <el-input v-model="searchKeyword" placeholder="Press Enter to search" clearable size="large"
+        @keyup.enter="handleSearchByKeyword">
         <template #prefix>
-          <el-icon><search /></el-icon>
+          <el-icon>
+            <search />
+          </el-icon>
         </template>
       </el-input>
     </div>
@@ -138,7 +140,7 @@ function changePage(page: number) {
   margin-bottom: 10px;
   display: flex;
 }
+
 .el-select {
   margin: 0 10px;
-}
-</style>
+}</style>
