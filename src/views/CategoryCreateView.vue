@@ -3,5 +3,5 @@ import CategoryDetail from '@/components/CategoryDetail.vue'
 </script>
 
 <template>
-  <category-detail />
+  <category-detail type="create" />
 </template>

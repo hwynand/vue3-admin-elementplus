@@ -2,6 +2,10 @@ export interface ICategoryCreate {
   name: string,
   image: string,
 }
+export interface ICategoryUpdate {
+  name: string,
+  image: string,
+}
 export interface ICategory extends ICategoryCreate {
   id: number,
 }
