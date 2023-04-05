@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ElMessage } from 'element-plus'
 
 import type { ICategory, ICategoryCreate, ICategoryUpdate, IGetCategoryParams } from '@/interfaces'
 import { api } from '@/utils'
@@ -20,7 +21,7 @@ export const useCategoriesStore = defineStore('categories', {
     },
     async createCategory(dataCreate: ICategoryCreate) {
       try {
-        const res = await api.post(API_ENDPOINTS.categories, {...dataCreate})
+        const res = await api.post(API_ENDPOINTS.categories, { ...dataCreate })
         return res
       } catch (error) {
         console.error('Create category E:', error)
@@ -36,7 +37,7 @@ export const useCategoriesStore = defineStore('categories', {
     },
     async updateCategory(categoryId: string, dataUpdate: ICategoryUpdate) {
       try {
-        const res = await api.put(API_ENDPOINTS.categories + categoryId, {...dataUpdate})
+        const res = await api.put(API_ENDPOINTS.categories + categoryId, { ...dataUpdate })
         return res
       } catch (error) {
         console.error(error)
@@ -44,11 +45,24 @@ export const useCategoriesStore = defineStore('categories', {
     },
     async deleteCategory(categoryId: string) {
       try {
-        const res = await api.delete(API_ENDPOINTS.categories + categoryId)
-        this.getCategoryList({})
-        return res
+        const { statusText } = await api.delete(API_ENDPOINTS.categories + categoryId)
+        if (statusText === 'OK') {
+          ElMessage({
+            type: 'success',
+            message: 'Category deleted',
+          })
+          this.getCategoryList({})
+        } else {
+          ElMessage({
+            type: 'error',
+            message: 'Some things went wrong',
+          })
+        }
       } catch (error) {
-        console.error(error)
+        ElMessage({
+          type: 'error',
+          message: 'Some things went wrong',
+        })
       }
     }
   }

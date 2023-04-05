@@ -35,10 +35,6 @@ function handleDelete(id: string) {
   )
     .then(() => {
       categoryStore.deleteCategory(id)
-      ElMessage({
-        type: 'success',
-        message: 'Category deleted',
-      })
     })
     .catch(() => {
       ElMessage({
@@ -92,7 +88,7 @@ function handleDelete(id: string) {
       </el-table-column>
     </el-table>
     <!-- <el-pagination background layout="prev, pager, next" :total="categoryStore.totalProduct" hide-on-single-page
-        @current-change="changePage" /> -->
+            @current-change="changePage" /> -->
   </div>
 </template>
 
@@ -119,4 +115,5 @@ function handleDelete(id: string) {
 
 .el-select {
   margin: 0 10px;
-}</style>
+}
+</style>
