@@ -1,6 +1,9 @@
-export interface ICategory {
-  id: number,
+export interface ICategoryCreate {
   name: string,
+  image: string,
+}
+export interface ICategory extends ICategoryCreate {
+  id: number,
 }
 
 export interface IBrand {

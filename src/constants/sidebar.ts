@@ -19,12 +19,24 @@ export const MENU = [
   },
   {
     index: "4",
+    icon: "material-symbols:category",
+    to: '/categories',
+    name: 'Categories'
+  },
+  {
+    index: "5",
+    icon: "material-symbols:branding-watermark",
+    to: '/brands',
+    name: 'Brands'
+  },
+  {
+    index: "6",
     icon: "material-symbols:order-approve",
     to: '/orders',
     name: 'Orders'
   },
   {
-    index: "5",
+    index: "7",
     icon: "material-symbols:article",
     to: '/articles',
     name: 'Article'
