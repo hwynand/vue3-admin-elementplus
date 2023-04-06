@@ -102,7 +102,7 @@ function changePage(page: number) {
       <el-table-column prop="name" label="Name" width="180" />
       <el-table-column prop="category.name" label="Category" width="180" />
       <el-table-column prop="brand.name" label="Brand" width="180" />
-      <el-table-column prop="description" label="Description" width="480" />
+      <!-- <el-table-column prop="description" label="Description" width="480" /> -->
       <el-table-column prop="product_variants" label="Variants" width="280">
         <template #default="scope">
           <ul>

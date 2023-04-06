@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 
-import type { IProduct, ICategory } from '@/interfaces'
+import type { IProduct, ICategory, IGetProductListParams, IProductCreate } from '@/interfaces'
 import { api } from '@/utils'
-import type { IGetProductListParams } from '@/interfaces'
+import { API_ENDPOINTS } from '@/constants'
 
 export const useProductsStore = defineStore('products', {
   state: () => ({
@@ -18,6 +18,14 @@ export const useProductsStore = defineStore('products', {
         this.totalProduct = data.total
       } catch (error) {
         console.error('Product store E:', error)
+      }
+    },
+    async createProduct(dataCreate: IProductCreate) {
+      try {
+        const res = await api.post(API_ENDPOINTS.products, { ...dataCreate })
+        return res
+      } catch (error) {
+        console.error(error)
       }
     },
     async deleteProduct(id: number) {

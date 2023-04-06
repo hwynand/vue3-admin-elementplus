@@ -34,6 +34,13 @@ export interface IProductVariant {
   images: IImage[],
 }
 
+export interface IProductCreate {
+  name: string,
+  category_id: number | null,
+  brand_id: number | null,
+  description: string,
+}
+
 export interface IProduct {
   id: number,
   name: string,
