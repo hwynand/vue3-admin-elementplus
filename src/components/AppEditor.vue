@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { defineEmits } from 'vue'
 import Editor from '@tinymce/tinymce-vue'
+
+const emit = defineEmits(['update:modelValue'])
 const tinymceToken = import.meta.env.VITE_TINYMCE_API_TOKEN || 'tinymce-token'
 
 const initOptions = {
@@ -15,8 +18,11 @@ const initOptions = {
            alignleft aligncenter alignright alignjustify | \
            bullist numlist outdent indent | removeformat | help',
 }
+function handleContentChange(e: string) {
+  emit("update:modelValue", e)
+} 
 </script>
 
 <template>
-  <editor :init="initOptions" :api-key="tinymceToken" />
+  <editor :init="initOptions" :api-key="tinymceToken" @update:modelValue="handleContentChange" />
 </template>
