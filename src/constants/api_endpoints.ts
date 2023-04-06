@@ -6,5 +6,8 @@ export const API_ENDPOINTS = {
   },
   user: {
     profileMe: '/users/me',
-  }
+  },
+  products: '/products/',
+  categories: '/categories/',
+  brands: '/brands/',
 }

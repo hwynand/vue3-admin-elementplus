@@ -24,7 +24,47 @@ const router = createRouter({
     {
       path: '/products',
       name: 'products',
-      component: () => import('../views/ProductsView.vue')
+      component: () => import('../views/ProductListView.vue')
+    },
+    {
+      path: '/products/create',
+      name: 'product create',
+      component: () => import('../views/ProductCreateView.vue')
+    },
+    {
+      path: '/products/:id(\\d+)',
+      name: 'product update',
+      component: () => import('../views/ProductUpdateView.vue')
+    },
+    {
+      path: '/categories',
+      name: 'category list',
+      component: () => import('../views/CategoryListView.vue')
+    },
+    {
+      path: '/categories/create',
+      name: 'category create',
+      component: () => import('../views/CategoryCreateView.vue')
+    },
+    {
+      path: '/categories/:id(\\d+)',
+      name: 'category update',
+      component: () => import('../views/CategoryUpdateView.vue')
+    },
+    {
+      path: '/brands',
+      name: 'brand list',
+      component: () => import('../views/BrandListView.vue')
+    },
+    {
+      path: '/brands/create',
+      name: 'brand create',
+      component: () => import('../views/BrandCreateView.vue')
+    },
+    {
+      path: '/brands/:id(\\d+)',
+      name: 'brand update',
+      component: () => import('../views/BrandUpdateView.vue')
     },
     {
       path: '/orders',

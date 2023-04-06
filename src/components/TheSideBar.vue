@@ -7,9 +7,7 @@ import { MENU } from '@/constants'
   <el-menu>
     <router-link v-for="item in MENU" :key="item.index" :to="item.to">
       <el-menu-item :index="item.index">
-        <el-icon>
-          <component :is="item.icon"></component>
-        </el-icon>
+        <Icon :icon="item.icon" height="1.5rem" style="margin-right: 5px"/>
         <template #title>
           {{ item.name }}
         </template>
