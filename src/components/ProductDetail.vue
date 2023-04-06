@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { reactive, defineProps, watch } from 'vue'
+import { ref, reactive, defineProps, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import type { TabsPaneContext } from 'element-plus'
 
 import { useProductsStore } from '@/stores/product'
 import { useCategoriesStore } from '@/stores/category'
@@ -9,6 +10,7 @@ import { useBrandsStore } from '@/stores/brand'
 import type { IProductCreate, IProductUpdate } from '@/interfaces'
 
 import AppEditor from '@/components/AppEditor.vue'
+import ProductVariantList from '@/components/ProductVariantList.vue'
 
 export interface Props {
   type: 'create' | 'update',
@@ -17,6 +19,10 @@ export interface Props {
 
 const props = defineProps<Props>()
 
+const activeTab = ref('productDetail')
+function handleChangeTab(tab: TabsPaneContext, event: Event) {
+  console.log(tab, event)
+}
 const router = useRouter()
 const productStore = useProductsStore()
 const categoryStore = useCategoriesStore()
@@ -50,7 +56,7 @@ watch(
 async function onSubmit() {
   if (props.type === 'create') {
     const res = await productStore.createProduct(productFormData)
-    if (res?.statusText === 'OK') {
+    if (res?.status === 200) {
       ElMessage.success('Successfully created.')
       router.push('/products')
     } else {
@@ -59,7 +65,7 @@ async function onSubmit() {
   }
   else if (props.type === 'update') {
     const res = await productStore.updateProduct(props.productId!, productFormData as IProductUpdate)
-    if (res?.statusText === 'OK') {
+    if (res?.status === 200) {
       ElMessage.success('Successfully updated.')
       router.push('/products')
     } else {
@@ -74,29 +80,36 @@ function onCancel() {
 </script>
 
 <template>
-  <el-form :model="productFormData" label-width="120px">
-    <el-form-item label="Name">
-      <el-input v-model="productFormData.name" placeholder="Product name" />
-    </el-form-item>
-    <el-form-item label="Category">
-      <el-select v-model="productFormData.category_id" placeholder="Category">
-        <el-option v-for="category in categoryStore.categoryList" :key="category.id" :label="category.name"
-          :value="category.id" />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="Brand">
-      <el-select v-model="productFormData.brand_id" placeholder="Brand">
-        <el-option v-for="brand in brandStore.brandList" :key="brand.id" :label="brand.name" :value="brand.id" />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="Description">
-      <app-editor v-model="productFormData.description" />
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onSubmit">{{ props.type === 'create' ? 'Create' : 'Update' }}</el-button>
-      <el-button @click="onCancel">Cancel</el-button>
-    </el-form-item>
-  </el-form>
+  <el-tabs v-model="activeTab" @tab-click="handleChangeTab">
+    <el-tab-pane label="Product Detail" name="productDetail">
+      <el-form :model="productFormData" label-width="120px">
+        <el-form-item label="Name">
+          <el-input v-model="productFormData.name" placeholder="Product name" />
+        </el-form-item>
+        <el-form-item label="Category">
+          <el-select v-model="productFormData.category_id" placeholder="Category">
+            <el-option v-for="category in categoryStore.categoryList" :key="category.id" :label="category.name"
+              :value="category.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Brand">
+          <el-select v-model="productFormData.brand_id" placeholder="Brand">
+            <el-option v-for="brand in brandStore.brandList" :key="brand.id" :label="brand.name" :value="brand.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Description">
+          <app-editor v-model="productFormData.description" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">{{ props.type === 'create' ? 'Create' : 'Update' }}</el-button>
+          <el-button @click="onCancel">Cancel</el-button>
+        </el-form-item>
+      </el-form>
+    </el-tab-pane>
+    <el-tab-pane v-if="props.type === 'update'" label="Product Variants" name="productVariants">
+      <product-variant-list :product-id="props.productId!" />
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <style scoped>
