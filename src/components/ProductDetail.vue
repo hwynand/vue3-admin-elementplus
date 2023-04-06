@@ -6,7 +6,7 @@ import { ElMessage } from 'element-plus'
 import { useProductsStore } from '@/stores/product'
 import { useCategoriesStore } from '@/stores/category'
 import { useBrandsStore } from '@/stores/brand'
-import type { IProductCreate } from '@/interfaces'
+import type { IProductCreate, IProductUpdate } from '@/interfaces'
 
 import AppEditor from '@/components/AppEditor.vue'
 
@@ -31,19 +31,21 @@ const productFormData: IProductCreate = reactive({
   description: '',
 })
 
-// if (props.type === 'update') {
-//   productStore.g(props.categoryId!)
-// }
+if (props.type === 'update') {
+  productStore.getProduct(props.productId!)
+}
 
-// watch(
-//   () => productStore.p,
-//   () => {
-//     if (categoryStore.category) {
-//       categoryFormData.name = categoryStore.category.name
-//       categoryFormData.image = categoryStore.category.image
-//     }
-//   }
-// )
+watch(
+  () => productStore.product,
+  () => {
+    if (productStore.product) {
+      productFormData.name = productStore.product.name
+      productFormData.category_id = productStore.product.category.id
+      productFormData.brand_id = productStore.product.brand.id
+      productFormData.description = productStore.product.description
+    }
+  }
+)
 
 async function onSubmit() {
   if (props.type === 'create') {
@@ -55,15 +57,15 @@ async function onSubmit() {
       ElMessage.error('Oops, some thing went wrong.')
     }
   }
-  //  else if (props.type === 'update') {
-  //   const res = await categoryStore.updateCategory(props.categoryId!, categoryFormData)
-  //   if (res?.statusText === 'OK') {
-  //     ElMessage.success('Successfully updated.')
-  //     router.push('/categories')
-  //   } else {
-  //     ElMessage.error('Oops, some thing went wrong.')
-  //   }
-  // }
+  else if (props.type === 'update') {
+    const res = await productStore.updateProduct(props.productId!, productFormData as IProductUpdate)
+    if (res?.statusText === 'OK') {
+      ElMessage.success('Successfully updated.')
+      router.push('/products')
+    } else {
+      ElMessage.error('Oops, some thing went wrong.')
+    }
+  }
 }
 
 function onCancel() {

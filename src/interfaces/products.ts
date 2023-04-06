@@ -41,6 +41,13 @@ export interface IProductCreate {
   description: string,
 }
 
+export interface IProductUpdate {
+  name: string,
+  category_id: number,
+  brand_id: number,
+  description: string,
+}
+
 export interface IProduct {
   id: number,
   name: string,
