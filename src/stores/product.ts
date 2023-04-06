@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ElMessage } from 'element-plus'
 
 import type { IProduct, ICategory, IGetProductListParams, IProductCreate, IProductUpdate } from '@/interfaces'
 import { api } from '@/utils'
@@ -48,9 +49,13 @@ export const useProductsStore = defineStore('products', {
     },
     async deleteProduct(id: number) {
       try {
-        const { data } = await api.delete<IProduct>('/products/' + id)
+        const res = await api.delete<IProduct>('/products/' + id)
+        return res
       } catch (error) {
-        console.error('Delete Product E: ', error)
+        ElMessage({
+          type: 'error',
+          message: 'Some things went wrong',
+        })
       }
     },
   }

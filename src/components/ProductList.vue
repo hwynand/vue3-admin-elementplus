@@ -52,7 +52,21 @@ function handleDelete(id: number) {
     }
   )
     .then(() => {
-      productStore.deleteProduct(id)
+      return productStore.deleteProduct(id)
+    })
+    .then((res) => {
+      if (res && res.status === 200) {
+        ElMessage({
+          type: 'success',
+          message: 'Category deleted',
+        })
+        productStore.getProductList({ page: getProductListParams.page })
+      } else {
+        ElMessage({
+          type: 'error',
+          message: 'Some things went wrong',
+        })
+      }
     })
     .catch(() => {
       ElMessage({
